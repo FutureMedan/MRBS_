@@ -62,7 +62,8 @@ public class Utils {
         String imageURL = "";
         if (checkImageFile(file)) {
             String fileName = name + "_" + file.getOriginalFilename();
-            imageURL = isFileSaved(file, fileName) ? IMAGE_LOCATION + fileName : "";
+            imageURL =
+                isFileSaved(file, fileName) ? IMAGE_LOCATION + fileName.replace(" ", "_") : "";
         }
         return imageURL;
     }
@@ -97,6 +98,4 @@ public class Utils {
         response.put(MESSAGE, errorMessage);
         return new ResponseEntity<>(response, httpStatus);
     }
-
-
 }

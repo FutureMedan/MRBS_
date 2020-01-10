@@ -1,5 +1,6 @@
 package com.future.MRBS.controller;
 
+import com.future.MRBS.model.User;
 import com.future.MRBS.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,8 +10,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
 
 @RestController @RequestMapping("/oauth") public class OAuthController {
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
@@ -26,19 +30,16 @@ import org.springframework.web.bind.annotation.RestController;
     /**
      * Uncomment for first time run only, endpoint to generate admin account
      * TODO("will delete after development ")
+     *
      * @return create a new admin account
      */
-  /*  @PostMapping("/admin")
-    public ResponseEntity createAdminForFirstTimeAndTestingOnly(){
-        User user = User.builder()
-                .name("admin")
-                .email("admin@jyp.com")
-                .password("admin")
-                .imageURL("")
+    @PostMapping("/admin") public ResponseEntity createAdminForFirstTimeAndTestingOnly() {
+        User user =
+            User.builder().name("admin").email("admin@jyp.com").password("admin").imageURL("")
                 .roles(Arrays.asList("ROLE_ADMIN")).build();
-        userService.createUser(user,null);
+        userService.createAdminUser(user);
         return new ResponseEntity(HttpStatus.OK);
-    }*/
+    }
 
     @DeleteMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity revokeToken(Authentication authentication) {

@@ -7,6 +7,7 @@ import com.future.MRBS.model.Booking;
 import com.future.MRBS.model.User;
 import com.future.MRBS.repository.BookingRepository;
 import com.future.MRBS.repository.UserRepository;
+import com.future.MRBS.service.AmazonClientService;
 import com.future.MRBS.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,29 +30,31 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import static com.future.MRBS.Utils.Utils.*;
+import static com.future.MRBS.Utils.Utils.createErrorResponse;
+import static com.future.MRBS.Utils.Utils.createPageRequest;
 import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CANCELED_OR_DELETED;
 import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHECKED_OUT;
 
 @Service public class UserServiceImpl implements UserDetailsService, UserService {
     final static String USER_NOT_FOUND = "User not found";
-    private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
-    private final DefaultTokenServices tokenServices;
-    private final BookingRepository bookingRepository;
-    private final CustomTokenStore customTokenStore;
-    private final String MESSAGE = "message";
     private final String USER_EXIST = "User already exist";
+    private PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
+    private AmazonClientService amazonClientService;
+    private DefaultTokenServices tokenServices;
+    private BookingRepository bookingRepository;
+    private CustomTokenStore customTokenStore;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, BookingRepository bookingRepository,
-        DefaultTokenServices tokenServices, CustomTokenStore customTokenStore,
-        PasswordEncoder passwordEncoder) {
+        DefaultTokenServices tokenServices, AmazonClientService amazonClientService,
+        CustomTokenStore customTokenStore, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.bookingRepository = bookingRepository;
         this.tokenServices = tokenServices;
         this.customTokenStore = customTokenStore;
         this.passwordEncoder = passwordEncoder;
+        this.amazonClientService = amazonClientService;
     }
 
     @Override public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -77,7 +80,7 @@ import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHEC
             response = createErrorResponse(USER_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
             if (file != null) {
-                user.setImageURL(saveImageURL(USER_PREFIX + user.getName(), file));
+                user.setImageURL(amazonClientService.uploadFile(file, user.getName()));
             }
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
@@ -100,8 +103,8 @@ import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHEC
             userExist.setPhoneNumber(user.getPhoneNumber());
             userExist.setRoles(user.getRoles());
             if (file != null) {
-                deleteImage(userExist.getImageURL());
-                userExist.setImageURL(saveImageURL(USER_PREFIX + user.getName(), file));
+                amazonClientService.deleteFileFromS3Bucket(userExist.getImageURL());
+                userExist.setImageURL(amazonClientService.uploadFile(file, user.getName()));
             }
             if (!authentication.getName().equalsIgnoreCase(userExist.getEmail())) {
                 revokeUserToken(userExist.getEmail());
@@ -125,6 +128,7 @@ import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHEC
                 bookingRepository.saveAll(bookingList);
             }
             revokeUserToken(userExist.get().getEmail());
+            amazonClientService.deleteFileFromS3Bucket(userExist.get().getImageURL());
             userRepository.delete(userExist.get());
             response = new ResponseEntity(HttpStatus.OK);
         }
