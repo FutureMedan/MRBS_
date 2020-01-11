@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="64f48132-1d01-46a5-b3c8-de09adb1b489" name="Default Changelist" comment="" />
+    <list default="true" id="64f48132-1d01-46a5-b3c8-de09adb1b489" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/future/MRBS/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/future/MRBS/model/Room.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,6 +142,7 @@
       <workItem from="1578667376894" duration="9972000" />
       <workItem from="1578718375719" duration="2937000" />
       <workItem from="1578725992451" duration="8381000" />
+      <workItem from="1578739907575" duration="360000" />
     </task>
     <task id="LOCAL-00001" summary="Added OAuth2 authentication">
       <created>1571510173347</created>

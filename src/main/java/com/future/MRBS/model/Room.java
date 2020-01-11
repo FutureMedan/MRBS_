@@ -19,5 +19,11 @@ public class Room {
     private List<String> facility;
     private Integer capacity;
 
+    public String getImageURL() {
+        return imageURL == null ? "" : imageURL;
+    }
 
+    public String getThumbnailURL() {
+        return thumbnailURL == null ? "" : thumbnailURL;
+    }
 }
