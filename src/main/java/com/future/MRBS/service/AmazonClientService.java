@@ -38,7 +38,9 @@ import java.io.*;
             String fileName = generateFileName(multipartFile, prefixName);
             fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
             uploadFileTos3bucket(fileName, file);
-            file.delete();
+            if (file != null) {
+                file.delete();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +53,7 @@ import java.io.*;
             FileOutputStream fos = new FileOutputStream(file);
             ByteArrayInputStream bis = new ByteArrayInputStream(multipartFile.getBytes());
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            Thumbnails.of(bis).size(160, 160).outputQuality(0.75).toOutputStream(bos);
+            Thumbnails.of(bis).scale(0.5).outputQuality(0.9).toOutputStream(bos);
             fos.write(bos.toByteArray());
             fos.close();
             return file;
@@ -72,6 +74,10 @@ import java.io.*;
 
     public void deleteFileFromS3Bucket(String fileUrl) {
         String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-        s3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+        try {
+            s3Client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+        } catch (Exception e) {
+            e.printStackTrace(); // Gotcha!!
+        }
     }
 }

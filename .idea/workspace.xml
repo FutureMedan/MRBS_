@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="64f48132-1d01-46a5-b3c8-de09adb1b489" name="Default Changelist" comment="refactor code">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/future/MRBS/controller/OAuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/future/MRBS/controller/OAuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/AmazonClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/AmazonClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/RoomServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -140,6 +143,7 @@
       <workItem from="1578201021566" duration="6549000" />
       <workItem from="1578579558031" duration="322000" />
       <workItem from="1578667376894" duration="9972000" />
+      <workItem from="1578718375719" duration="2937000" />
     </task>
     <task id="LOCAL-00001" summary="Added OAuth2 authentication">
       <created>1571510173347</created>

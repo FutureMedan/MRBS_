@@ -103,7 +103,9 @@ import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHEC
             userExist.setPhoneNumber(user.getPhoneNumber());
             userExist.setRoles(user.getRoles());
             if (file != null) {
-                amazonClientService.deleteFileFromS3Bucket(userExist.getImageURL());
+                if (!userExist.getImageURL().isEmpty()) {
+                    amazonClientService.deleteFileFromS3Bucket(userExist.getImageURL());
+                }
                 userExist.setImageURL(amazonClientService.uploadFile(file, user.getName()));
             }
             if (!authentication.getName().equalsIgnoreCase(userExist.getEmail())) {

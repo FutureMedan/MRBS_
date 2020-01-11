@@ -77,7 +77,9 @@ import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHEC
             roomExist.setCapacity(room.getCapacity());
             roomExist.setCategory(room.getCategory());
             if (file != null) {
-                amazonClientService.deleteFileFromS3Bucket(roomExist.getImageURL());
+                if (!roomExist.getImageURL().isEmpty()) {
+                    amazonClientService.deleteFileFromS3Bucket(roomExist.getImageURL());
+                }
                 roomExist.setImageURL(amazonClientService.uploadFile(file, room.getName()));
             }
             roomRepository.save(roomExist);
