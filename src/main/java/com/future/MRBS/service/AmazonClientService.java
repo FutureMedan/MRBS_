@@ -12,11 +12,18 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import rx.Single;
+import rx.schedulers.Schedulers;
 
 import javax.annotation.PostConstruct;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 @Service public class AmazonClientService {
+
+    public static final String THUMBNAIL = "thumbnail";
 
     private AmazonS3 s3Client;
 
@@ -31,39 +38,53 @@ import java.io.*;
             .withCredentials(new AWSStaticCredentialsProvider(creds)).build();
     }
 
-    public String uploadFile(MultipartFile multipartFile, String prefixName) {
-        String fileUrl = "";
-        try {
-            File file = convertMultiPartToFile(multipartFile);
-            String fileName = generateFileName(multipartFile, prefixName);
-            fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
-            uploadFileTos3bucket(fileName, file);
-            if (file != null) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public String saveFile(MultipartFile multipartFile, String prefixName) {
+        String fileName = generateFileName(multipartFile.getOriginalFilename(), prefixName);
+        String fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
+        convertAndUploadFile(fileName, multipartFile);
         return fileUrl;
     }
 
-    private File convertMultiPartToFile(MultipartFile multipartFile) throws IOException {
-        if (multipartFile.getOriginalFilename() != null) {
-            File file = new File(multipartFile.getOriginalFilename());
-            FileOutputStream fos = new FileOutputStream(file);
-            ByteArrayInputStream bis = new ByteArrayInputStream(multipartFile.getBytes());
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            Thumbnails.of(bis).scale(0.5).outputQuality(0.9).toOutputStream(bos);
-            fos.write(bos.toByteArray());
-            fos.close();
-            return file;
+    private void convertAndUploadFile(String fileName, MultipartFile multipartFile) {
+        try {
+            convertMultiPartToFile(multipartFile, fileName).subscribeOn(Schedulers.io())
+                .subscribe(file -> {
+                    uploadFileTos3bucket(fileName, file);
+                    if (file != null) {
+                        file.delete();
+                    }
+                }, Throwable::printStackTrace);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return null;
     }
 
-    private String generateFileName(MultipartFile multiPart, String prefixName) {
-        String fileName =
-            prefixName + "_" + System.currentTimeMillis() + "_" + multiPart.getOriginalFilename();
+    private Single<File> convertMultiPartToFile(MultipartFile multipartFile, String fileName) {
+        return Single.create(singleSubscriber -> {
+            if (multipartFile.getOriginalFilename() != null) {
+                try {
+                    File file = new File(fileName + multipartFile.getOriginalFilename());
+                    FileOutputStream fos = new FileOutputStream(file);
+                    ByteArrayInputStream bis = new ByteArrayInputStream(multipartFile.getBytes());
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    if (fileName.contains(THUMBNAIL)) {
+                        Thumbnails.of(bis).size(160, 160).outputQuality(0.75).toOutputStream(bos);
+                    } else {
+                        Thumbnails.of(bis).scale(0.5).outputQuality(0.8).toOutputStream(bos);
+                    }
+                    fos.write(bos.toByteArray());
+                    fos.close();
+                    singleSubscriber.onSuccess(file);
+                } catch (Exception e) {
+                    singleSubscriber.onError(e);
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private String generateFileName(String originalFileName, String prefixName) {
+        String fileName = prefixName + "_" + System.currentTimeMillis() + "_" + originalFileName;
         return fileName.replace(" ", "_");
     }
 

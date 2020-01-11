@@ -20,6 +20,7 @@ import java.util.List;
 
 import static com.future.MRBS.Utils.Utils.createErrorResponse;
 import static com.future.MRBS.Utils.Utils.createPageRequest;
+import static com.future.MRBS.service.AmazonClientService.THUMBNAIL;
 import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CANCELED_OR_DELETED;
 import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHECKED_OUT;
 
@@ -48,7 +49,9 @@ import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHEC
             response = createErrorResponse(ROOM_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
             if (file != null) {
-                room.setImageURL(amazonClientService.uploadFile(file, room.getName()));
+                room.setThumbnailURL(
+                    amazonClientService.saveFile(file, THUMBNAIL + room.getName()));
+                room.setImageURL(amazonClientService.saveFile(file, room.getName()));
             }
             roomRepository.save(room);
             response = new ResponseEntity<>(room, HttpStatus.OK);
@@ -80,7 +83,12 @@ import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHEC
                 if (!roomExist.getImageURL().isEmpty()) {
                     amazonClientService.deleteFileFromS3Bucket(roomExist.getImageURL());
                 }
-                roomExist.setImageURL(amazonClientService.uploadFile(file, room.getName()));
+                if (!roomExist.getThumbnailURL().isEmpty()) {
+                    amazonClientService.deleteFileFromS3Bucket(roomExist.getThumbnailURL());
+                }
+                roomExist.setThumbnailURL(
+                    amazonClientService.saveFile(file, THUMBNAIL + room.getName()));
+                roomExist.setImageURL(amazonClientService.saveFile(file, room.getName()));
             }
             roomRepository.save(roomExist);
             response = new ResponseEntity<>(roomExist, HttpStatus.OK);

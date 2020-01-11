@@ -32,6 +32,7 @@ import java.util.Optional;
 
 import static com.future.MRBS.Utils.Utils.createErrorResponse;
 import static com.future.MRBS.Utils.Utils.createPageRequest;
+import static com.future.MRBS.service.AmazonClientService.THUMBNAIL;
 import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CANCELED_OR_DELETED;
 import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHECKED_OUT;
 
@@ -80,7 +81,9 @@ import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHEC
             response = createErrorResponse(USER_EXIST, HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
             if (file != null) {
-                user.setImageURL(amazonClientService.uploadFile(file, user.getName()));
+                user.setThumbnailURL(
+                    amazonClientService.saveFile(file, THUMBNAIL + user.getName()));
+                user.setImageURL(amazonClientService.saveFile(file, user.getName()));
             }
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
@@ -106,7 +109,12 @@ import static com.future.MRBS.service.ServiceImpl.BookingServiceImpl.STATUS_CHEC
                 if (!userExist.getImageURL().isEmpty()) {
                     amazonClientService.deleteFileFromS3Bucket(userExist.getImageURL());
                 }
-                userExist.setImageURL(amazonClientService.uploadFile(file, user.getName()));
+                if (!userExist.getThumbnailURL().isEmpty()) {
+                    amazonClientService.deleteFileFromS3Bucket(userExist.getThumbnailURL());
+                }
+                userExist.setThumbnailURL(
+                    amazonClientService.saveFile(file, THUMBNAIL + user.getName()));
+                userExist.setImageURL(amazonClientService.saveFile(file, user.getName()));
             }
             if (!authentication.getName().equalsIgnoreCase(userExist.getEmail())) {
                 revokeUserToken(userExist.getEmail());

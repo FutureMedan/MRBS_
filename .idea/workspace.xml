@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="64f48132-1d01-46a5-b3c8-de09adb1b489" name="Default Changelist" comment="refactor code">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/future/MRBS/controller/OAuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/future/MRBS/controller/OAuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/AmazonClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/AmazonClientService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/RoomServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/UserServiceImpl.java" afterDir="false" />
-    </list>
+    <list default="true" id="64f48132-1d01-46a5-b3c8-de09adb1b489" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,6 +139,7 @@
       <workItem from="1578579558031" duration="322000" />
       <workItem from="1578667376894" duration="9972000" />
       <workItem from="1578718375719" duration="2937000" />
+      <workItem from="1578725992451" duration="8381000" />
     </task>
     <task id="LOCAL-00001" summary="Added OAuth2 authentication">
       <created>1571510173347</created>
@@ -348,7 +344,21 @@
       <option name="project" value="LOCAL" />
       <updated>1578677305257</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="add rx for image upload">
+      <created>1578731359550</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1578731359550</updated>
+    </task>
+    <task id="LOCAL-00031" summary="add new field thumbnailURL">
+      <created>1578733156935</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1578733156935</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -369,8 +379,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="fixed PageImpl bug on availablerooms" />
-    <MESSAGE value="Added formatter" />
     <MESSAGE value="Added validation, refactor function and changed Booking model for UI purpose" />
     <MESSAGE value="Added field phone and address to user model,&#10;Added new user endpoint" />
     <MESSAGE value="Changed imageUrl response" />
@@ -394,7 +402,9 @@
     <MESSAGE value="change table name and fix booking deleted bug" />
     <MESSAGE value="refactor code" />
     <MESSAGE value="add AmazonClientService for static resources" />
-    <option name="LAST_COMMIT_MESSAGE" value="add AmazonClientService for static resources" />
+    <MESSAGE value="add rx for image upload" />
+    <MESSAGE value="add new field thumbnailURL" />
+    <option name="LAST_COMMIT_MESSAGE" value="add new field thumbnailURL" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -403,14 +413,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/RoomServiceImpl.java</url>
-          <line>76</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/BookingServiceImpl.java</url>
           <line>237</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/future/MRBS/service/AmazonClientService.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/future/MRBS/service/ServiceImpl/BookingServiceImpl.java</url>

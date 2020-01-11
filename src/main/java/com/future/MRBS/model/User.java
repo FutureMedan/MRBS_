@@ -19,11 +19,16 @@ public class User {
     private String address;
     private String phoneNumber;
     private String imageURL;
+    private String thumbnailURL;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) private String password;
     private List<String> roles;
 
     public String getImageURL() {
         return imageURL == null ? "" : imageURL;
+    }
+
+    public String getThumbnailURL() {
+        return thumbnailURL == null ? "" : thumbnailURL;
     }
 
     @JsonIgnore public String getUsername() {
