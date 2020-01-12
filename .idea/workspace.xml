@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="64f48132-1d01-46a5-b3c8-de09adb1b489" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/future/MRBS/model/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/future/MRBS/model/Room.java" afterDir="false" />
-    </list>
+    <list default="true" id="64f48132-1d01-46a5-b3c8-de09adb1b489" name="Default Changelist" comment="fix bug on null room thumbnail url and imageurl" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +140,8 @@
       <workItem from="1578667376894" duration="9972000" />
       <workItem from="1578718375719" duration="2937000" />
       <workItem from="1578725992451" duration="8381000" />
-      <workItem from="1578739907575" duration="360000" />
+      <workItem from="1578739907575" duration="1103000" />
+      <workItem from="1578811420823" duration="719000" />
     </task>
     <task id="LOCAL-00001" summary="Added OAuth2 authentication">
       <created>1571510173347</created>
@@ -361,7 +360,21 @@
       <option name="project" value="LOCAL" />
       <updated>1578733156935</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="fix bug on null room thumbnail url and imageurl">
+      <created>1578740396255</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1578740396256</updated>
+    </task>
+    <task id="LOCAL-00033" summary="change amazonClient accessKey and secretKey">
+      <created>1578812112222</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1578812112222</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -382,8 +395,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Added validation, refactor function and changed Booking model for UI purpose" />
-    <MESSAGE value="Added field phone and address to user model,&#10;Added new user endpoint" />
     <MESSAGE value="Changed imageUrl response" />
     <MESSAGE value="Added response code for logout endpoint" />
     <MESSAGE value="-Modified generate admin end point" />
@@ -407,7 +418,9 @@
     <MESSAGE value="add AmazonClientService for static resources" />
     <MESSAGE value="add rx for image upload" />
     <MESSAGE value="add new field thumbnailURL" />
-    <option name="LAST_COMMIT_MESSAGE" value="add new field thumbnailURL" />
+    <MESSAGE value="fix bug on null room thumbnail url and imageurl" />
+    <MESSAGE value="change amazonClient accessKey and secretKey" />
+    <option name="LAST_COMMIT_MESSAGE" value="change amazonClient accessKey and secretKey" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />

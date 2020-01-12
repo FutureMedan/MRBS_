@@ -1,5 +1,5 @@
 amazonProperties:
   endpointUrl: https://s3.ap-southeast-1.amazonaws.com
-  accessKey: AKIARO2LJFVYMFFVYOBQ
-  secretKey: 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
+  accessKey: AKIARO2LJFVYDMSTKNX2
+  secretKey: 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
   bucketName: pms-future
